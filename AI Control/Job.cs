@@ -18,6 +18,15 @@ public class Job : MonoBehaviour
     private void Start(){
         jobRegister = JobRegister.instance;
     }
+    public virtual Job Clone()
+    {
+        Job job = new Job();
+        job.position = position;
+        job.target = target;
+        job.requireMachineType = requireMachineType;
+        job.requireState = requireState;
+        return job;
+    }
     public void TakeJob(Worker worker)
     {
         this.worker = worker;
@@ -54,6 +63,15 @@ public class PickJob : Job
         jobType = 0;
         requireState = (int) (Machine.state.IDLE | Machine.state.PLACE | Machine.state.FINISHED);
     }
+    public override Job Clone()
+    {
+        PickJob job = new PickJob();
+        job.position = position;
+        job.target = target;
+        job.requireMachineType = requireMachineType;
+        job.requireState = requireState;
+        return job;
+    }
     public override void StartJob()
     {
         Debug.Log("worker: " +worker.id + " Starting PickJob id: " + id);
@@ -69,6 +87,16 @@ public class PlaceJob : Job
         requireState = (int)Machine.state.IDLE;
         this.productType = productType;
     }
+    public override Job Clone()
+    {
+        PlaceJob job = new PlaceJob();
+        job.position = position;
+        job.target = target;
+        job.requireMachineType = requireMachineType;
+        job.requireState = requireState;
+        job.productType = productType;
+        return job;
+    }
     public override void StartJob()
     {
         Debug.Log("worker:" + worker.id + " Starting PlaceJob id: " + id);
@@ -81,6 +109,15 @@ public class OperateJob : Job
     {
         jobType = 2;
         requireState = (int)Machine.state.PLACE;
+    }
+    public override Job Clone()
+    {
+        OperateJob job = new OperateJob();
+        job.position = position;
+        job.target = target;
+        job.requireMachineType = requireMachineType;
+        job.requireState = requireState;
+        return job;
     }
     public override void StartJob()
     {

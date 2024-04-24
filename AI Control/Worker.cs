@@ -76,32 +76,41 @@ public class Worker : MonoBehaviour
     }
     public IEnumerator PickObjectCoroutine(Machine target, Vector3 position)
     {
+        agent.avoidancePriority=80;
         agent.SetDestination(position);
         while (Vector3.Distance(transform.position, position) > 1f)
         {
             yield return null; // Wait for the next frame
         }
+        agent.avoidancePriority=20;
+        GetComponent<Animator>().SetTrigger("Operate");
         target.pick(this);
         CompleteJob();
     }
     public IEnumerator PlaceObjectCoroutine(Machine target, Vector3 position)
     {
+        agent.avoidancePriority=80;
         agent.SetDestination(position);
         while (Vector3.Distance(transform.position, position) > 1f)
         {
             yield return null; // Wait for the next frame
         }
+        agent.avoidancePriority=20;
+        GetComponent<Animator>().SetTrigger("Operate");
         target.place(holdingObject);
         holdingObject = null;
         CompleteJob();
     }
     public IEnumerator OperateObjectCoroutine(Machine target, Vector3 position)
     {
+        agent.avoidancePriority=80;
         agent.SetDestination(position);
         while (Vector3.Distance(transform.position, position) > 1f)
         {
             yield return null; // Wait for the next frame
         }
+        agent.avoidancePriority=20;
+        GetComponent<Animator>().SetTrigger("Operate");
         target.operate();
         CompleteJob();
     }

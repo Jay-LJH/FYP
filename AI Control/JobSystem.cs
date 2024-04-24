@@ -9,6 +9,7 @@ public class JobSystem : MonoBehaviour
     public JobRegister jobRegister;
     public WorkerRegister workerRegister;
     public MachineRegister machineRegister;
+    public instrutionrecorder recorder;
 
     private void Start()
     {
@@ -16,6 +17,7 @@ public class JobSystem : MonoBehaviour
         jobRegister = JobRegister.instance;
         workerRegister = WorkerRegister.instance;
         machineRegister = MachineRegister.instance;
+        recorder = instrutionrecorder.instance;
     }
     //this function create a series of test job
     public void createPickJob(int machineType = 0)
@@ -24,6 +26,7 @@ public class JobSystem : MonoBehaviour
         job.requireMachineType = machineType;
         job.id = jobCount++;
         jobRegister.RegisterJob(job);
+        recorder.AddInstrution(job);
     }
     public void createPlaceJob(int machineType = 1)
     {
@@ -31,6 +34,7 @@ public class JobSystem : MonoBehaviour
         job.requireMachineType = machineType;
         job.id = jobCount++;
         jobRegister.RegisterJob(job);
+        recorder.AddInstrution(job);
     }
     public void createOperateJob(int machineType = 2)
     {
@@ -38,5 +42,6 @@ public class JobSystem : MonoBehaviour
         job.requireMachineType = machineType;
         job.id = jobCount++;
         jobRegister.RegisterJob(job);
+        recorder.AddInstrution(job);
     }
 }

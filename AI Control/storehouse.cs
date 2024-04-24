@@ -22,13 +22,12 @@ public class storehouse: Machine
         Debug.Log("Starting pick at storehouse: " + id);
         GameObject productGo = GameObject.Instantiate(model);
         var product = productGo.GetComponent<Product>();
-        product.id = idCount++;
-        
-        Vector3 globalScale = productGo.transform.lossyScale;
+        product.id = idCount++;       
         worker.holdingObject = productGo;
         productGo.transform.SetParent(worker.transform);
-        productGo.transform.localScale = new Vector3(globalScale.x / worker.transform.lossyScale.x, globalScale.y / worker.transform.lossyScale.y, globalScale.z / worker.transform.lossyScale.z);
         productGo.transform.localPosition =new Vector3(0,1,1);
+        productGo.transform.localScale = new Vector3(1,1,1);
+        productGo.transform.localRotation = Quaternion.Euler(90,0,0);
         product.ChangeState(Product.state.Pick);
     }
     public override void place(GameObject target)

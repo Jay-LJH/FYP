@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class CameraLook : MonoBehaviour
 {
-    private float mouseSensitivity = 1000.0f;
+    private float mouseSensitivity = 100.0f;
     private float rotationY = 0.0f;
     private bool gyroEnabled;
     private Gyroscope gyro;

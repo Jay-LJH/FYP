@@ -32,16 +32,19 @@ public class JobRegister : MonoBehaviour
         foreach (Job job in jobs)
         {
             if (!job.IsTaken() && !job.isCompleted)
-            {
-                Worker worker = workerRegister.GetAvailableWorker(job);
-                Machine m = machineRegister.GetAvailableMachine(job.requireMachineType, job.requireState); 
-                if (worker != null && m != null)
+            { 
+                Machine m = machineRegister.GetAvailableMachine(job.requireMachineType, job.requireState);    
+                if (m != null)
                 {
                     job.position = m.operatePosition;
-                    job.target = m;
-                    job.TakeJob(worker);
-                    worker.TakeJob(job);
-                    break;
+                    Worker worker = workerRegister.GetClosestAvailableWorker(job);
+                    if(worker != null) 
+                    {
+                        job.target = m;
+                        job.TakeJob(worker);
+                        worker.TakeJob(job);
+                        break;
+                    }                   
                 }
             }
         }

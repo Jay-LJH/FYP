@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
 
         if (moveDirection.magnitude >= 0.1f)
         {
-
             moveDirection = cameraTF.TransformDirection(moveDirection);
             MovePlayer(moveDirection);  
             RotatePlayer(moveDirection);
@@ -34,6 +33,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool(name: "IsWalk", value: false);
         }
+        
     }
     void MovePlayer(Vector3 moveDirection)
     {

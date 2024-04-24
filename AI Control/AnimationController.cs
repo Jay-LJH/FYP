@@ -14,7 +14,7 @@ public class AnimationController : MonoBehaviour,EventInterface
     } 
     void Update()
     {
-        animator.SetBool("IsWalking", lastPosition != transform.position);
+        animator.SetBool(name: "IsWalk", value: lastPosition != transform.position);
         lastPosition = transform.position;
     }
     public void RecognizeEvent(int result)

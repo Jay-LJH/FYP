@@ -33,16 +33,23 @@ public class WorkerRegister : MonoBehaviour
         workers.Remove(worker);
     }
 
-    public Worker GetAvailableWorker(Job job)
+    public Worker GetClosestAvailableWorker(Job job)
     {
+        Worker closest = null;
+        float minDistance = Mathf.Infinity;
         foreach (Worker w in availableWorkers)
         {
             if (w.isAvailableJob(job))
             {
-                return w;
+                float distance = Vector3.Distance(w.transform.position, job.position);
+                if (distance < minDistance)
+                {
+                    closest = w;
+                    minDistance = distance;
+                }
             }
         }
-        return null;
+        return closest;
     }
 
     public void AddAvailableWorker(Worker worker)

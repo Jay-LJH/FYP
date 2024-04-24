@@ -4,52 +4,34 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    private float speed = 20.0f;
-    private float bodyMass;
-    private Rigidbody rb;
-    private bool isJumping = false;
-    [SerializeField]
-    private float jumpHeigh = 1.0f;
-    private Animator animator;
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        animator =transform.Find("Character").gameObject.GetComponent<Animator>();
-        bodyMass = rb.mass;
-    }
+    public float speed = 5.0f;
+    public float mouseSensitivity = 2.0f;
+    private float verticalRotation = 0;
+    public float upDownRange = 60.0f;
+
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            isJumping = true;
-            animator.SetTrigger("Jump");
+        // Character rotation
+        float rotLeftRight = Input.GetAxis("Mouse X") * mouseSensitivity;
+        transform.Rotate(0, rotLeftRight, 0);
+
+        // Camera rotation
+        verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
+        Camera.main.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+
+        // Character movement
+        float forwardSpeed = Input.GetAxis("Vertical") * speed;
+        float sideSpeed = Input.GetAxis("Horizontal") * speed;
+        Vector3 speed1 = new Vector3(sideSpeed, 0, forwardSpeed);
+        speed1 = transform.rotation * speed1;
+        CharacterController cc = GetComponent<CharacterController>();
+        if(speed1.magnitude > 0.1f){
+            GetComponent<Animator>().SetBool("IsWalk", true);  
         }
-    }
-    // FixedUpdate is called once per frame
-    void FixedUpdate()
-    {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 forward = Camera.main.transform.forward;
-        Vector3 right = Camera.main.transform.right;
-
-        forward.y = 0;
-        right.y = 0;
-
-        forward.Normalize();
-        right.Normalize();
-
-        Vector3 desiredMoveDirection = forward * moveVertical + right * moveHorizontal;
-        Vector3 movement = desiredMoveDirection * speed * bodyMass;
-
-        rb.AddForce(movement);
-        if (isJumping)
-        {
-            rb.AddForce(new Vector3(0, jumpHeigh * bodyMass, 0), ForceMode.Impulse);
-            isJumping = false;
+        else{
+            GetComponent<Animator>().SetBool("IsWalk", false);
         }
-        animator.SetBool("IsWalking", rb.velocity.magnitude > 0);
+        cc.SimpleMove(speed1);
     }
 }

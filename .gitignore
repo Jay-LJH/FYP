@@ -1,0 +1,2 @@
+# Ignore all non-C# files
+!*.cs
